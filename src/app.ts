@@ -10,8 +10,6 @@ import {
 
 import path from 'path';
 import { Player } from 'discord-player';
-import { YoutubeiExtractor } from "discord-player-youtubei"
-import { useMainPlayer } from 'discord-player';
 import { Command, commands } from "./types";
 
 //requires
@@ -79,7 +77,7 @@ for (const folder of commandFolders) {
         }
     }
 }
-console.log(commands);
+//console.log(commands);
 
 client.once(Events.ClientReady, (readyClient: Client<true>) => {
     console.log(`Ready! Logged in as ${readyClient.user!.tag}`);
@@ -106,7 +104,7 @@ const rest = new REST().setToken(token);
 })();
 
 client.on(Events.InteractionCreate, async (interaction) => {
-    console.log(interaction);
+  //  console.log(interaction);
 
     if (!interaction.isCommand()) return;
 
