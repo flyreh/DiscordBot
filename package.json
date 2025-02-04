@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@discord-player/extractor": "^4.5.1",
+    "@discord-player/ffmpeg": "^7.1.0",
     "@discordjs/opus": "github:discordjs/opus",
     "@discordjs/rest": "^2.4.0",
     "@discordjs/voice": "^0.18.0",
