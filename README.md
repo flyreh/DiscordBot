@@ -10,3 +10,4 @@ Comands:
  - /siguiente : skip song queue
  - /command : show commands
  - /imagen : search for any image from pexels
+ - /palabra : juego de la palabra del día (https://lapalabradeldia.com/).

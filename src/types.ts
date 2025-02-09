@@ -8,5 +8,11 @@ export interface Command {
   execute: ({ client, interaction }: { client: Client<boolean>; interaction: any }) => Promise<void>;
 }
 
+export interface ObjectWord {
+  character: string;
+  emojie : any;
+}
+
+export const wordDay : string = '';
 
 
