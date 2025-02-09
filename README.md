@@ -1,7 +1,12 @@
 Comands:
  - /play : search music and play it. 
+    - busca : ingresa el nombre de la canción para buscar.
  - /salir : leave voice channel
  - /cola : show song queue
+    - eliminar : elimina una canción de la cola (índice)
+    - mostrar : mostrar la cola de canciones y la reproducción actual 
+    - mover : mover una canción a otra posición en la cola (indice cancion)(indice destino)
+    - limpiar : limpiar la cola de canciones
  - /siguiente : skip song queue
  - /command : show commands
  - /imagen : search for any image from pexels
