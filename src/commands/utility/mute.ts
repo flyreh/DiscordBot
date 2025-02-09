@@ -31,7 +31,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
      
    // console.log(client.user);
 
-    if (miembro.voice.channel === null) {
+    if (!miembro.voice.channel) {
         await interaction.reply({
             content: `El usuario ${userTag} no está en un canal de voz`,
             ephemeral: false    
@@ -56,6 +56,6 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     interaction.editReply({ embeds: [embeds], ephemeral: false });
 
 }
-const queueCommand: Command = { data: commandList, execute: execute };
+const muteCommand: Command = { data: commandList, execute: execute };
 
-export default queueCommand;
+export default muteCommand;

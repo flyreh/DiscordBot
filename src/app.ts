@@ -91,10 +91,11 @@ const rest = new REST().setToken(token);
     try {
         console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
+        const commandsData = commands.map( (command: Command) => command.data.toJSON());
         // The put method is used to fully refresh all commands in the guild with the current set
         const data: any  = await rest.put(
             Routes.applicationGuildCommands(clientId, serverID),
-            { body: commands.map(command => command.data.toJSON()) }
+            { body: commandsData }
         );
         console.log(`Successfully reloaded ${data.length} application (/) commands.`);
     } catch (error) {
@@ -121,6 +122,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
         await interaction.reply({ content: "There was an error executing this command" });
     }
 
+});
+
+
+client.on('error', (error) => {
+    console.error('Error:', error);
+});
+
+client.on('playerError', (queue, error) => {
+    console.error(`Error en la cola de reproducción: ${error.message}`);
 });
 
 client.login(token);

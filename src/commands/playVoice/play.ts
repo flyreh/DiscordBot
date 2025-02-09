@@ -122,7 +122,7 @@ export async function execute({ client, interaction }: { client: Client<boolean>
             .setThumbnail(song.thumbnail)
             .setFooter({ text: `Duration: ${song.duration}` });
 
-        QueueControl(queue, song, interaction, embed);
+       // QueueControl(queue, song, interaction, embed);
     }
 
     interaction.editReply({ embeds: [embed], ephemeral: false });
@@ -135,6 +135,7 @@ const QueueControl  = (queue : GuildQueue, track: Track, interaction: any, embed
     }else{
         queue.addTrack(track);
     }
+    console.log("QUEUE CONTROL : ", queue.getSize());
 }
 
 const playCommand : Command = { data: play, execute: execute };

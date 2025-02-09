@@ -3,10 +3,10 @@ import { Command } from "../../types";
 
 export let server = new SlashCommandBuilder()
     .setName("server")
-    .setDescription("te respondo desde server p q c chhc");
+    .setDescription("te respondo");
 
 export async function execute({ client, interaction }: any) {
-    interaction.reply("calla tarao ");
+    interaction.reply("server?");
 }
 
 const serverCommand : Command = { data: server, execute: execute };

@@ -69,6 +69,6 @@ export async function execute({ client, interaction }: {client : Client<boolean>
 
     interaction.editReply({ embeds: [embeds], ephemeral: false });
 }
-const queueCommand: Command = { data: commandList, execute: execute };
+const killCommand: Command = { data: commandList, execute: execute };
 
-export default queueCommand;
+export default killCommand;

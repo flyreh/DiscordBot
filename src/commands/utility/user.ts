@@ -3,10 +3,10 @@ import { Command } from "../../types";
 
 export let user = new SlashCommandBuilder()
     .setName("usuario")
-    .setDescription("te respondo desde usuario p q c chhc");
+    .setDescription("te respondo");
 
 export async function execute({ client, interaction }: any) {
-    interaction.reply("calla tarao ");
+    interaction.reply("usuario?");
 }
 
 const userCommand : Command = { data : user, execute: execute };

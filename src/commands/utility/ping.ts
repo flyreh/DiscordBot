@@ -3,10 +3,10 @@ import { Command } from "../../types";
 
 export let ping = new SlashCommandBuilder()
     .setName("hola")
-    .setDescription("Te respondo :v");
+    .setDescription("Te saludo");
 
 export async function execute({ client, interaction }: any) {
-    interaction.reply("Gracias por haberme creado, te amo te quiero");
+    interaction.reply("Hola, espero que tengas un buen día");
 }
 
 const pingCommand : Command = { data: ping, execute: execute };

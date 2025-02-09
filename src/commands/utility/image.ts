@@ -1,4 +1,4 @@
-import { EmbedBuilder, escapeCodeBlock, SlashCommandBuilder } from "discord.js";
+import { EmbedBuilder, escapeCodeBlock, SlashCommandBuilder, Client } from "discord.js";
 import { createClient } from 'pexels';
 import { Command } from "../../types";
 
@@ -14,7 +14,7 @@ export let image = new SlashCommandBuilder()
             )
     )
 
-export async function execute({ client, interaction }: any): Promise<void> {
+export async function execute({ client, interaction }: {client: Client<boolean>, interaction : any}): Promise<void> {
 
     const apiKey = process.env.pexels_apikey;
     if (!apiKey) {
