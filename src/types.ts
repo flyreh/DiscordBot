@@ -16,3 +16,18 @@ export interface ObjectWord {
 export const wordDay : string = '';
 
 
+interface ChatMessage {
+    role: 'system' | 'user' | 'assistant';
+    content: string;
+    timestamp: number;
+    userId?: string;
+    userName?: string;
+}
+
+interface ConversationContext {
+    messages: ChatMessage[];
+    lastActivity: number;
+}
+
+
+
