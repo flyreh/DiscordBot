@@ -23,7 +23,7 @@ export async function execute( {client, interaction}: { client: Client<boolean>,
                 .setDescription(`está bien, entiendo que no eres tu, soy yo...\n`
                 )
         ],
-        ephemeral: false
+        flags: 0
     })
 
 }

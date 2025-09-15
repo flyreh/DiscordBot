@@ -21,7 +21,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if(!userTag){
         await interaction.reply({
             content: "No se encontró el usuario",
-            ephemeral: false
+            flags: 0
         });
         return;
     }
@@ -32,7 +32,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if (miembro.voice.channel === null) {
         await interaction.reply({
             content: `El usuario ${userTag} no está en un canal de voz`,
-            ephemeral: false    
+            flags: 0    
         });
         return;
     }
@@ -40,14 +40,14 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if(userTag.id === interaction.user.id){
         await interaction.reply({
             content: "No puedes matarte a ti mismo 😄",
-            ephemeral: false
+            flags: 0
         });
         return;
     } 
     else if(userTag.id === client.user!.id){
         await interaction.reply({
             content: "No puedes matar al bot 😄",
-            ephemeral: false
+            flags: 0
         });
         return;
     }
@@ -64,10 +64,10 @@ export async function execute({ client, interaction }: {client : Client<boolean>
    
     await interaction.reply({
         content: `matando a... ${userTag}`,
-        ephemeral: false    
+        flags: 0    
     });
 
-    interaction.editReply({ embeds: [embeds], ephemeral: false });
+    interaction.editReply({ embeds: [embeds], flags: 0 });
 }
 const killCommand: Command = { data: commandList, execute: execute };
 

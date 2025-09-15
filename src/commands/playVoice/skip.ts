@@ -12,13 +12,13 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
     
     await interaction.reply({
         content: "Pasando a la siguiente canción...",
-        ephemeral: false
+        flags: 0
     });
 
     if (!queue || !queue.isPlaying()) {
          return await interaction.editReply({
             content: "No hay canciones para reproducir.",
-            ephemeral: false
+            flags: 0
         });
     }
 
@@ -31,7 +31,7 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
     if(!currentSong){ 
         return await interaction.editReply({
             content: "No hay más canciones en la cola, nos vemos...",
-            ephemeral: false
+            flags: 0
         });
     }
 
@@ -43,7 +43,7 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
                 )
                 .setThumbnail(currentSong.thumbnail)
         ],
-        ephemeral: false
+        flags: 0
     })
 
 }

@@ -52,7 +52,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if (!queue || !queue.isPlaying()) {
         return await interaction.reply({
             content: "No haz puesto canciones en la cola.",
-            ephemeral: false
+            flags: 0
         });
     }
 
@@ -60,7 +60,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
 
         await interaction.reply({
             content: "Mostrando cola de reproducción...",
-            ephemeral: false
+            flags: 0
         });
 
         // Get the first 10 songs in the queue
@@ -82,7 +82,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
                     )
                     .setThumbnail(currentSong.thumbnail)
             ],
-            ephemeral: false
+            flags: 0
         })
 
     }
@@ -94,14 +94,14 @@ export async function execute({ client, interaction }: {client : Client<boolean>
 
         await interaction.reply({
             content: "Eliminando canción de la cola...",
-            ephemeral: false
+            flags: 0
         });
 
 
         if(indice < 0 || indice >= queue.getSize()){
             return await interaction.editReply({
                 content: "Ingresa un indice válido para la cola",
-                ephemeral: false
+                flags: 0
             });
         }
 
@@ -114,14 +114,14 @@ export async function execute({ client, interaction }: {client : Client<boolean>
 
             await interaction.followUp({
                 content: `Canción eliminada: ${track.title}`,
-                ephemeral: false
+                flags: 0
     
             });
 
         }catch(e){
             return await interaction.editReply({
                 content: "No se pudo eliminar la canción",
-                ephemeral: false
+                flags: 0
             });
         }
 
@@ -130,18 +130,18 @@ export async function execute({ client, interaction }: {client : Client<boolean>
         
         await interaction.reply({
             content: "Limpiando cola de reproducción...",
-            ephemeral: false
+            flags: 0
         });
         try{
             queue.clear();
             await interaction.followUp({
                 content: "Cola de reproducción limpiada",
-                ephemeral: false
+                flags: 0
             });
         }catch(e){
             return await interaction.editReply({
                 content: "No se pudo limpiar la cola :(",
-                ephemeral: false
+                flags: 0
             });
 
         }
@@ -154,14 +154,14 @@ export async function execute({ client, interaction }: {client : Client<boolean>
         await interaction.reply(
             {
                 content : "moviendo canciones...",
-                ephemeral : false
+                flags : 0
             }
         );
         if( (origen && destino <0) || (origen && destino) >= queue.getSize()) {
                 
             return await interaction.editReply({
                 content : "Ingrese indices válidos para la cola de reproducción",
-                ephemeral : false
+                flags : 0
             });
         }
         try {
@@ -169,7 +169,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
             if(origen == destino){
                 return await interaction.editReply({
                     content : `el origen y el destino tienen el mismo valor`,
-                    ephemeral : false
+                    flags : 0
                 });
             }
             else{
@@ -179,7 +179,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
                 
                 await interaction.followUp({
                     content : `Canción ${trackorigen.cleanTitle} movida a la posición ${destino} de la cola`,
-                    ephemeral : false
+                    flags : 0
                 });
             }
 
@@ -188,7 +188,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
 
             return interaction.editReply({
                 content : "No se puedo mover las canciones de la cola =(",
-                ephemeral : false
+                flags : 0
             });
             
         }

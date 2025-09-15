@@ -21,7 +21,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if(!userTag){
         await interaction.reply({
             content: "No se encontró el usuario",
-            ephemeral: false
+            flags: 0
         });
         return;
     }
@@ -34,14 +34,14 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if (!miembro.voice.channel) {
         await interaction.reply({
             content: `El usuario ${userTag} no está en un canal de voz`,
-            ephemeral: false    
+            flags: 0    
         });
         return;
     }
 
     await interaction.reply({
         content: `usuario ${userTag} muteado, jaja que risa`,
-        ephemeral: false    
+        flags: 0    
     });
 
     miembro.voice.setMute();
@@ -53,7 +53,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
             .setFooter({ text: `Vamos cerrando el ortito` });
    
 
-    interaction.editReply({ embeds: [embeds], ephemeral: false });
+    interaction.editReply({ embeds: [embeds], flags: 0 });
 
 }
 const muteCommand: Command = { data: commandList, execute: execute };

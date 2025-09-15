@@ -10,7 +10,7 @@ export async function execute({ client, interaction }: { client: Client<boolean>
 
     await interaction.reply({
         content: "Mostrando lista de comandos...",
-        ephemeral: false    
+        flags: 0    
     });
 
     // Construir la lista de comandos y subcomandos
@@ -30,7 +30,7 @@ export async function execute({ client, interaction }: { client: Client<boolean>
             new EmbedBuilder()
                 .setDescription(`Lista de Comandos\n${commandDescriptions}`)
         ],
-        ephemeral: false
+        flags: 0
     });
 }
 

@@ -56,10 +56,6 @@ export let word = new SlashCommandBuilder()
             });
             return;
         }
-
-        console.log(ArrayWord);
-        console.log(ArrayWrite);
-    
         const evaluate = evaluateWord(ArrayWord, ArrayWrite, interaction);
     
         const isCorrect = evaluate.every((item) => item.emojie === "🟩");
@@ -81,7 +77,7 @@ export let word = new SlashCommandBuilder()
             });
         }
     }
-// 🟩🟥 🟨
+
 const evaluateWord = (ArrayWord : string[], ArrayWrite : string[], interaction : any) => {
 
     const Result : ObjectWord[] = [];

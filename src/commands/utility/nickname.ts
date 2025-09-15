@@ -25,7 +25,7 @@ export async function execute({ client, interaction }: {client : Client<boolean>
     if(!userTag){
         await interaction.reply({
             content: "No se encontró el usuario",
-            ephemeral: false
+            flags: 0
         });
         return;
     }
@@ -37,13 +37,13 @@ export async function execute({ client, interaction }: {client : Client<boolean>
         await miembro.setNickname(apodo);
         await interaction.reply({
             content: `El apodo de ${userTag.username} ha sido cambiado a ${apodo} dentro del servidor`,
-            ephemeral: false
+            flags: 0
         });
     } catch (error) {
         console.error(error);
         await interaction.reply({
             content: "No tengo permisos para cambiar el apodo de este usuario.",
-            ephemeral: false
+            flags: 0
         });
     }
 

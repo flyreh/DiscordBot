@@ -1,47 +1,32 @@
-import { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandStringOption } from "discord.js";
+import { SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandStringOption, flatten } from "discord.js";
 import { Client, EmbedBuilder } from "discord.js"
 import { GuildQueue, QueryType, Track, useQueue } from "discord-player"
 import { Command } from "../../types";
 
 export let play = new SlashCommandBuilder()
     .setName("play")
-    .setDescription("play a song from YouTube.")
+    .setDescription("Reproduce una cancion de YouTube con el nombre o la URL =)")
     .addSubcommand((subcommand: SlashCommandSubcommandBuilder) =>
             subcommand
             .setName("busca")
-            .setDescription("keyword")
+            .setDescription("busca una cancion de YouTube")
             .addStringOption((option: SlashCommandStringOption) =>
-                option.setName("searchterms").setDescription("search keywords").setRequired(true)
+                option.setName("searchterms").setDescription("nombre o URL").setRequired(true)
             )
-    )
-    .addSubcommand((subcommand: SlashCommandSubcommandBuilder) =>
-
-        subcommand
-            .setName("list")
-            .setDescription("Plays a playlist from YT")
-            .addStringOption((option: SlashCommandStringOption) =>
-                 option.setName("url").setDescription("the playlist's url").setRequired(true))
-    )
-    .addSubcommand((subcommand: SlashCommandSubcommandBuilder) =>
-        subcommand
-            .setName("cancion")
-            .setDescription("URL Plays a single song from YT")
-            .addStringOption((option: SlashCommandStringOption) =>
-                 option.setName("url").setDescription("the song's url").setRequired(true))
     )
 
 export async function execute({ client, interaction }: { client: Client<boolean>, interaction: any }): Promise<void> {
 
     await interaction.reply({
         content: `Realizando búqueda, te pido paciencia mi querido ${interaction.user.globalName}...`,
-        ephemeral: false
+        flags: 0
     });
 
     if (!interaction.member.voice.channel) {
 
         return interaction.editReply({
             content: "Debes estar en un canal de voz para usar este comando.",
-            ephemeral: false
+            flags: 0
         });
     }
 
@@ -52,7 +37,7 @@ export async function execute({ client, interaction }: { client: Client<boolean>
       } 
       catch {
         queue.delete();
-        return interaction.reply({ content: 'No pude unirme al canal de voz.', ephemeral: true });
+        return interaction.reply({ content: 'No pude unirme al canal de voz.', flags: 1 });
       }
 
     const embed = new EmbedBuilder();
@@ -64,78 +49,68 @@ export async function execute({ client, interaction }: { client: Client<boolean>
             requestedBy: interaction.user,
             searchEngine: QueryType.AUTO,
         });
+
         const song = result.tracks[0];
 
         if (!result || result.tracks.length === 0) {
-            return interaction.editReply({
+            interaction.editReply({
                 content: "No se encontró la música que deseas",
-                ephemeral: false
+                flags: 0
             });
+            return;
         }
         const thumbnail = song.thumbnail ? song.thumbnail : null;
         const url = song.url ? song.url : undefined;
         embed
-            .setDescription(`**[${song.title}](${url})** ha sido añadido a la cola :V.`)
+            .setDescription(`**[${song.title}](${url})** ha sido añadido a la cola.`)
             .setThumbnail(thumbnail)
             .setFooter({ text: `Duration: ${song.duration}` });
 
         QueueControl(queue, song, interaction, embed);
 
-    } else if (interaction.options.getSubcommand() === "list") {
-        const playlistURL = interaction.options.getString("url");
-        const result = await client.player.search(playlistURL, {
-            requestedBy: interaction.user,
-            searchEngine: QueryType.AUTO
-        });
+     } 
+     //else if (interaction.options.getSubcommand() === "cancion") {
 
-        if (!result || result.tracks.length === 0) {
-            return interaction.reply("No playlist found with the given URL.");
-        }
+    //     const songURL = interaction.options.getString("nombre de la canción");
+    //     console.log("SONG URL : ", songURL)
+    //     const result = await client.player.search(songURL, {
+    //         requestedBy: interaction.user,
+    //         searchEngine: QueryType.AUTO
+    //     });
+    //     console.log("SONG ENCONTRADA : ", result)
 
-        embed
-            .setDescription(`**${result.tracks.length} tracks from [${result.playlist?.title ?? 'Unknown Playlist'}](${result.playlist?.url ?? '#'})** added to the queue.`)
-            .setThumbnail(result.playlist?.thumbnail ?? '');
+    //     if (!result || result.tracks.length === 0) {
+    //         return interaction.editReply("No song found with the given URL.");
+    //     }
 
-        //QueueControl(queue, song);
+    //     const song = result.tracks[0];
+    //     if (queue) {
+    //         queue.addTrack(song);
+    //     }
 
-    } else if (interaction.options.getSubcommand() === "cancion") {
+    //     embed
+    //         .setDescription(`**[${song.title}](${song.url})** has been added to the queue.`)
+    //         .setThumbnail(song.thumbnail)
+    //         .setFooter({ text: `Duration: ${song.duration}` });
 
-        const songURL = interaction.options.getString("nombre de la canción");
-        console.log("SONG URL : ", songURL)
-        const result = await client.player.search(songURL, {
-            requestedBy: interaction.user,
-            searchEngine: QueryType.AUTO
-        });
-        console.log("SONG ENCONTRADA : ", result)
+    //     QueueControl(queue, song, interaction, embed);
+    // }
 
-        if (!result || result.tracks.length === 0) {
-            return interaction.editReply("No song found with the given URL.");
-        }
-
-        const song = result.tracks[0];
-        if (queue) {
-            queue.addTrack(song);
-        }
-
-        embed
-            .setDescription(`**[${song.title}](${song.url})** has been added to the queue.`)
-            .setThumbnail(song.thumbnail)
-            .setFooter({ text: `Duration: ${song.duration}` });
-
-       // QueueControl(queue, song, interaction, embed);
-    }
-
-    interaction.editReply({ embeds: [embed], ephemeral: false });
+    interaction.editReply({ embeds: [embed], flags: 0 });
 }
 
 const QueueControl  = (queue : GuildQueue, track: Track, interaction: any, embed : EmbedBuilder ) => {
 
-    if (queue && !queue.isPlaying()){
-        queue.play(track);
-    }else{
-        queue.addTrack(track);
+    try {
+        if (queue && !queue.isPlaying()){
+            queue.play(track);
+        }else{
+            queue.addTrack(track);
+        }
+        console.log("QUEUE CONTROL : ", queue.getSize());
+    } catch (error) {
+        throw error;
     }
-    console.log("QUEUE CONTROL : ", queue.getSize());
 }
 
 const playCommand : Command = { data: play, execute: execute };

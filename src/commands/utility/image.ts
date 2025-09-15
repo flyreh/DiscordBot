@@ -24,7 +24,7 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
 
     await interaction.reply({
         content: "Realizando búqueda, tenme paciencia...",
-        ephemeral: false
+        flags: 0
     });
 
     const searchTerms = interaction.options.getString("searchterms");
@@ -32,7 +32,7 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
     if (!searchTerms) {
         return interaction.editReply({
             content: "Debes ingresar un término de búsqueda.",
-            ephemeral: false
+            flags: 0
         });
     }
 
@@ -42,7 +42,7 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
                 if (response.photos.length === 0) {
                     return interaction.editReply({
                         content: 'No se encontró ninguna imagen con los términos de búsqueda proporcionados.',
-                        ephemeral: false
+                        flags: 0
                     });
                 }
 
@@ -54,12 +54,12 @@ export async function execute({ client, interaction }: {client: Client<boolean>,
                         .setFooter({ text: `Photo by ${photo.photographer} on Pexels` });
                 });
 
-                interaction.editReply({ embeds: embeds, ephemeral: false });
-                interaction.followUp({ content: `${interaction.user.globalName} `, ephemeral: false });
+                interaction.editReply({ embeds: embeds, flags: 0 });
+                interaction.followUp({ content: `${interaction.user.globalName} `, flags: 0 });
             } else {
                 return interaction.editReply({
                     content: 'Ocurrió un error al buscar imágenes.',
-                    ephemeral: false
+                    flags: 0
                 });
             }
         }));

@@ -13,7 +13,9 @@ import { Player } from 'discord-player';
 import { Command, commands } from "./types";
 
 //requires
-const { SoundCloudExtractor } = require("@discord-player/extractor");
+import  { SoundCloudExtractor } from "@discord-player/extractor";
+import { YoutubeiExtractor } from "discord-player-youtubei"
+
 const ytdl = require("discord-ytdl-core");
 const { createWriteStream } = require("fs");
 
@@ -43,16 +45,21 @@ const client = new Client({
 });
 
 const player = new Player(client, {
-    ytdlOptions: {
-        quality: "highestaudio",
-        highWaterMark: 1 << 25
-    }
+    skipFFmpeg: false,
+
+});
+
+client.player = player;
+
+// player.extractors.register(SpotifyExtractor, {
+//     clientId: process.env.SPOTIFY_CLIENT_ID || undefined,
+//     clientSecret: process.env.SPOTIFY_CLIENT_SECRET || undefined,
+
+// });
+player.extractors.register(YoutubeiExtractor, {
 });
 
 
-player.extractors.register(SoundCloudExtractor, {});
-
-client.player = player;
 
 client.commands = new Collection<string, Command>;
 
@@ -81,8 +88,6 @@ for (const folder of commandFolders) {
 
 client.once(Events.ClientReady, (readyClient: Client<true>) => {
     console.log(`Ready! Logged in as ${readyClient.user!.tag}`);
-
-
 });
 
 const rest = new REST().setToken(token);
@@ -116,17 +121,29 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     try {
         await command.execute({ client, interaction });
+        return;
     }
     catch (error) {
         console.error(error);
-        await interaction.reply({ content: "There was an error executing this command" });
+        await interaction.reply({ content: "Hubo un error ejecutando este comando" });
     }
 
 });
 
+//listeners de player
+
+client.player.events.on('error', (queue, error) => {
+    console.log(`Error general: ${error.message}`);
+});
+
+client.player.events.on('playerError', (queue, error) => {
+    console.log(`Error del reproductor: ${error.message}`);
+});
+
+
 
 client.on('error', (error) => {
-    console.error('Error:', error);
+    console.error('Error del cliente:', error);
 });
 
 client.on('playerError', (queue, error) => {
