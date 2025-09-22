@@ -99,11 +99,11 @@ export async function execute({ client, interaction }: { client: Client<boolean>
     interaction.editReply({ embeds: [embed], flags: 0 });
 }
 
-const QueueControl  = (queue : GuildQueue, track: Track, interaction: any, embed : EmbedBuilder ) => {
+const QueueControl  = async (queue : GuildQueue, track: Track, interaction: any, embed : EmbedBuilder ) => {
 
     try {
         if (queue && !queue.isPlaying()){
-            queue.play(track);
+            await queue.play(track);
         }else{
             queue.addTrack(track);
         }

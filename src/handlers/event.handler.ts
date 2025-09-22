@@ -61,7 +61,8 @@ export const SetupEventHandlers = (client: Client): void => {
 
     // Listeners de player (existentes)
     client.player.events.on('error', (queue, error) => {
-        console.log(`Error general: ${error.message}`);
+    console.error(`[Player Error] Error en cola ${queue.guild.name}:`, error);
+    // Intentar mantener la conexión si es posible
     });
 
     client.player.events.on('playerError', (queue, error) => {

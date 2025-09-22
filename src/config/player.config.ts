@@ -10,6 +10,7 @@ export const CreatePlayer = (client: Client) => {
     });
     
     player.extractors.register(YoutubeiExtractor, {
+        ignoreSignInErrors: true
     });
 
     client.player = player;

@@ -13,7 +13,7 @@ class OpenaiHandler{
     private openai: OpenAI;
     private CacheService : RedisCacheService;
     private readonly CONTEXT_TTL = 10000; // 2 horas
-    private readonly MAX_CONTEXT_MESSAGES = 15;
+    private readonly MAX_CONTEXT_MESSAGES = 10;
 
     constructor(){
         this.openai = new OpenAI({
