@@ -12,7 +12,11 @@ export const loadCommands = (client: Client):void => {
     for (const folder of commandFolders) {
     
         let commandsPath = path.join(foldersPath, folder);
-        let commandFiles = fs.readdirSync(commandsPath).filter( (file: string) => file.endsWith('.ts'));
+
+        const currentFileExt = path.extname(__filename);
+        let commandFiles = fs.readdirSync(commandsPath).filter((file: string) => 
+            file.endsWith(currentFileExt)
+        );   
     
         for (const file of commandFiles) {
             const filePath = path.join(commandsPath, file);

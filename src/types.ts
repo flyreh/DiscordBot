@@ -13,6 +13,13 @@ export interface ObjectWord {
   emojie : any;
 }
 
+export interface WordDayType {
+  word: string;
+  length: number;
+  category: string;
+  language: string;
+}
+
 export const wordDay : string = '';
 
 

@@ -10,9 +10,6 @@ export const CreatePlayer = (client: Client) => {
     });
     
     player.extractors.register(YoutubeiExtractor, {
-    streamOptions: {
-        highWaterMark: 400 * 1024
-    }
     });
 
     client.player = player;

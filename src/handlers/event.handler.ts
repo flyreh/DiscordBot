@@ -1,5 +1,5 @@
 import { Client, Events, Message } from "discord.js";
-import { addMessageToContext, generateOpenAIResponse, isBotMentioned } from "./openai.handler";
+import { openaiHanlder } from "./openai.handler";
 
 export const SetupEventHandlers = (client: Client): void => {
     client.once(Events.ClientReady, (readyClient: Client<true>) => {
@@ -36,20 +36,20 @@ export const SetupEventHandlers = (client: Client): void => {
             const channelId = message.channel.id;
             const messageContent = message.content;
 
-            addMessageToContext(channelId, messageContent, false);
+            openaiHanlder.addMessageToContext(channelId, messageContent, false);
 
-            const mentioned = isBotMentioned(message, client);
+            const mentioned = openaiHanlder.isBotMentioned(message, client);
 
             if (mentioned) {
                 const cleanMessage = messageContent.replace(/<@!?\d+>/g, '').trim();
                 
-                await generateOpenAIResponse(channelId, cleanMessage || messageContent, message);
+                await openaiHanlder.generateResponse(channelId, cleanMessage || messageContent, message);
             }
 
         } catch (error) {
             console.error('Error al procesar mensaje con OpenAI:', error);
             
-            if (isBotMentioned(message, client)) {
+            if (openaiHanlder.isBotMentioned(message, client)) {
                 try {
                     await message.reply('Lo siento, hubo un error al procesar tu mensaje.');
                 } catch (replyError) {

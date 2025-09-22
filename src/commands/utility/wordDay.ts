@@ -1,8 +1,8 @@
 import { escapeCodeBlock, Interaction, SlashCommandBuilder, Client } from "discord.js";
-import { Command, ObjectWord } from "../../types";
+import { Command, ObjectWord, WordDayType } from "../../types";
 
 
-let currentWord: string = '';
+let currentWord: string  = '';
 let currentDate: string  = '';
 let wordGuessed: boolean = false;
 
@@ -22,15 +22,16 @@ export let word = new SlashCommandBuilder()
         if (currentDate !== today) {
             currentDate = today;
             wordGuessed = false;
-    
+            
             try {
-                const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&length=6`);
+                const response = await fetch(`https://random-words-api.kushcreates.com/api?language=es&length=6&words=3`);
                 if (!response.ok) {
                     throw new Error(`Response status: ${response.status}`);
                 }
     
-                const jsonword = await response.json();
-                currentWord = jsonword[0];
+                const jsonword : WordDayType[] = await response.json();
+                currentWord  = jsonword[0].word;
+                console.log(currentWord)
             } catch (error) {
                 console.error(error);
                 await interaction.reply({

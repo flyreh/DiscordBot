@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  discord-bot:
+    build: .
+    container_name: discord-bot
+    restart: unless-stopped
+    depends_on:
+      - redis
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - disc_token=${disc_token}
+      - id_client=${id_client}
+      - serverID=${serverID}
+      - pexels_apikey=${pexels_apikey}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - discord-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-server
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - discord-network
+
+volumes:
+  redis-data:
+
+networks:
+  discord-network:
+    driver: bridge
