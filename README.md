@@ -1,12 +1,21 @@
-Comands:
+### Technical Features:
+
+- Mention the bot in any message to get an AI response
+- Bot maintains conversation context within channels
+
+- Redis-based context storage for conversations
+- Docker containerization support
+- Streaming AI responses for natural conversation flow
+
+### Commands
  - /play : search music and play it. 
-    - busca : ingresa el nombre de la canción para buscar.
+    - busca : enter the name or URL of the song.
  - /salir : leave voice channel
  - /cola : show song queue
-    - eliminar : elimina una canción de la cola (índice)
-    - mostrar : mostrar la cola de canciones y la reproducción actual 
-    - mover : mover una canción a otra posición en la cola (indice cancion)(indice destino)
-    - limpiar : limpiar la cola de canciones
+    - eliminar : remove a song from the queue (index)
+    - mostrar : display the song queue and currently playing 
+    - mover : move a song to another position in the queue (song index) (destination index)
+    - limpiar : clean the song queue
  - /siguiente : skip song queue
  - /command : show commands
  - /imagen : search for any image from pexels
